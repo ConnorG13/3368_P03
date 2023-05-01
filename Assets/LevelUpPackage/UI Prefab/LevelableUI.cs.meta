@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 276a3dc875d88df41a92325d9b1e56e6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _levelable: {instanceID: 0}
+  - _levelableDisplay: {instanceID: 0}
+  - _slider: {fileID: 2990578590182723457, guid: c7f83b4d0a3251747a984596bb785623, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

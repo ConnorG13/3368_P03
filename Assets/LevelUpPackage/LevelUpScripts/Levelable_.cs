@@ -6,24 +6,26 @@ using UnityEngine;
 public class Levelable_ : MonoBehaviour
 {
     /*
-        Below is the component to be used for leveling. Replace the 'DefaultComponent' 
-        class with the desired component, as well as find and replace all 
-        '_defaultParameter' instances" with the desired parameter
-        */
-
-
-    /*
-    [Header("Parameter")]
-    [SerializeField] private DefaultComponent _parameterComponent; 
+    Below is the component to be used for leveling. Replace the 'DefaultComponent' 
+    class with the desired component, as well as find and replace all 
+    '_defaultParameter' instances" with the desired parameter
     */
 
-    [Header("Leveling")]
-    [SerializeField] [Tooltip("The object's current level.")] private int _currentLevel = 1;
-    [SerializeField] [Tooltip("The maximum level the object can reach.")] private int _maxLevel = 10;
-    [SerializeField] [Tooltip("The base amount of EXP required to level up.")] private int _EXPPerLevel = 100;
 
-    private int _currentEXP = 0;
+    
+    [Header("Parameter")]
+    [SerializeField] private DefaultComponent _componentToUse; 
+    
+
+    [Header("Leveling")]
+    [SerializeField] [Tooltip("The object's current level.")] public int _currentLevel = 1;
+    [SerializeField] [Tooltip("The maximum level the object can reach.")] private int _maxLevel = 10;
+    [SerializeField] [Tooltip("The base amount of EXP required to level up.")] public int _EXPPerLevel = 100;
+
+    public int _currentEXP = 0;
     private int _startingEXPPerLevel;
+
+    [HideInInspector] public bool _hasLeveledUp = false;
 
     enum EXPScaleMethods { Additive, Multiplicative };
     [Header("EXP Scaling")]
@@ -31,7 +33,8 @@ public class Levelable_ : MonoBehaviour
     [SerializeField] [Tooltip("Additive adds the base EXP per level, multiplied by the below modifier. Multiplicative multiplies the required EXP by the below modifier each level.")] private EXPScaleMethods _scaleMethod;
     [SerializeField] [Tooltip("The modifier for scaling EXP values. Higher values mean later levels will require more EXP.")] [Range(1, 5)] private float _EXPModifier = 1.5f;
 
-
+    [HideInInspector] public bool _EXPGained = false;
+    public float _EXPAmount;
 
     [Header("Usage")]
     [SerializeField] [Tooltip("The starting value for the desired stat.")] private float _startingStat = 0.5f;
@@ -39,9 +42,8 @@ public class Levelable_ : MonoBehaviour
 
     private void Awake()
     {
-        /*
-        _parameterComponent._defaultParameter = _startingStat;
-        */
+        
+        _componentToUse._defaultParameter = _startingStat;
 
         _startingEXPPerLevel = _EXPPerLevel;
     }
@@ -75,14 +77,18 @@ public class Levelable_ : MonoBehaviour
 
         _currentLevel++;
 
-        /*
-        _parameterComponent._defaultParameter += _statModifier;
-        */
+        
+        _componentToUse._defaultParameter += _statModifier;
+        
+
+        _hasLeveledUp = true;
     }
 
     public void GainEXP(int _expGained)
     {
+        _EXPAmount = _expGained;
         _currentEXP += _expGained;
+        _EXPGained = true;
     }
 
 }
