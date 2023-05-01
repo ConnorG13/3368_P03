@@ -6,16 +6,16 @@ using UnityEngine;
 public class Levelable_ : MonoBehaviour
 {
     /*
-    Below is the component to be used for leveling. Replace the 'DefaultComponent' 
+    Below is the component to be used for leveling. Replace the 'PlayerMovement' 
     class with the desired component, as well as find and replace all 
-    '_defaultParameter' instances" with the desired parameter
+    '_playerSpeed' instances" with the desired parameter
     */
 
 
-    
+
     [Header("Parameter")]
-    [SerializeField] private DefaultComponent _componentToUse; 
-    
+    [SerializeField] private PlayerMovement _componentToUse;
+
 
     [Header("Leveling")]
     [SerializeField] [Tooltip("The object's current level.")] public int _currentLevel = 1;
@@ -42,8 +42,9 @@ public class Levelable_ : MonoBehaviour
 
     private void Awake()
     {
-        
-        _componentToUse._defaultParameter = _startingStat;
+
+        _componentToUse._playerSpeed = _startingStat;
+
 
         _startingEXPPerLevel = _EXPPerLevel;
     }
@@ -77,9 +78,9 @@ public class Levelable_ : MonoBehaviour
 
         _currentLevel++;
 
-        
-        _componentToUse._defaultParameter += _statModifier;
-        
+
+        _componentToUse._playerSpeed += _statModifier;
+
 
         _hasLeveledUp = true;
     }
