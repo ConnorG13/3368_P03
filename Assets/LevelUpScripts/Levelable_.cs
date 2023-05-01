@@ -5,21 +5,27 @@ using UnityEngine;
 
 public class Levelable_ : MonoBehaviour
 {
+    /*
+        Below is the component to be used for leveling. Replace the 'DefaultComponent' 
+        class with the desired component, as well as find and replace all 
+        '_defaultParameter' instances" with the desired parameter
+        */
 
+
+    /*
     [Header("Parameter")]
-    [SerializeField]
-    [Tooltip("The component to be used for leveling. Enter the script and replace the 'PlayerMovement' class with the desired component, as well as find and replace all '_playerSpeed' instances with the desired variable.")]
-    private PlayerMovement _parameterComponent;
+    [SerializeField] private DefaultComponent _parameterComponent; 
+    */
 
     [Header("Leveling")]
     [SerializeField] [Tooltip("The object's current level.")] private int _currentLevel = 1;
     [SerializeField] [Tooltip("The maximum level the object can reach.")] private int _maxLevel = 10;
     [SerializeField] [Tooltip("The base amount of EXP required to level up.")] private int _EXPPerLevel = 100;
-    
+
     private int _currentEXP = 0;
     private int _startingEXPPerLevel;
 
-    enum EXPScaleMethods {Additive, Multiplicative};
+    enum EXPScaleMethods { Additive, Multiplicative };
     [Header("EXP Scaling")]
     [SerializeField] [Tooltip("Will the amount of EXP needed to level up increase per level?")] private bool _EXPScaling = false;
     [SerializeField] [Tooltip("Additive adds the base EXP per level, multiplied by the below modifier. Multiplicative multiplies the required EXP by the below modifier each level.")] private EXPScaleMethods _scaleMethod;
@@ -33,7 +39,10 @@ public class Levelable_ : MonoBehaviour
 
     private void Awake()
     {
-        _parameterComponent._playerSpeed = _startingStat;
+        /*
+        _parameterComponent._defaultParameter = _startingStat;
+        */
+
         _startingEXPPerLevel = _EXPPerLevel;
     }
 
@@ -41,27 +50,34 @@ public class Levelable_ : MonoBehaviour
     {
         if (_currentEXP >= _EXPPerLevel && _currentLevel < _maxLevel)
         {
-            _currentEXP -= _currentEXP;
-
-            if (_EXPScaling == true)
-            {
-                switch (_scaleMethod)
-                {
-                    case EXPScaleMethods.Additive:
-                        _EXPPerLevel += Mathf.RoundToInt(_startingEXPPerLevel * _EXPModifier);
-                        break;
-
-                    case EXPScaleMethods.Multiplicative:
-                        _EXPPerLevel = Mathf.RoundToInt(_EXPPerLevel * _EXPModifier);
-                        break;
-
-                }
-            }
-                
-            _currentLevel++;
-
-            _parameterComponent._playerSpeed += _statModifier;
+            LevelUp();
         }
+    }
+
+    public void LevelUp()
+    {
+        _currentEXP -= _EXPPerLevel;
+
+        if (_EXPScaling == true)
+        {
+            switch (_scaleMethod)
+            {
+                case EXPScaleMethods.Additive:
+                    _EXPPerLevel += Mathf.RoundToInt(_startingEXPPerLevel * _EXPModifier);
+                    break;
+
+                case EXPScaleMethods.Multiplicative:
+                    _EXPPerLevel = Mathf.RoundToInt(_EXPPerLevel * _EXPModifier);
+                    break;
+
+            }
+        }
+
+        _currentLevel++;
+
+        /*
+        _parameterComponent._defaultParameter += _statModifier;
+        */
     }
 
     public void GainEXP(int _expGained)
